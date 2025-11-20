@@ -1,0 +1,76 @@
+@for (boid of boids; track $index) {
+<div
+  class="fx-boid"
+  [style.transform]="'rotate(' + boid.getRotation() + 'deg)'"
+  [style.left.px]="boid.getPosition().x"
+  [style.bottom.px]="boid.getPosition().y"
+  [style.clip-path]="showSightRadius ? '' : 'polygon(0% 25%, 0% 75%, 100% 50%)'"
+  (click)="selectBoid($index)"
+></div>
+}
+
+<div class="develop-panel">
+  <div>
+    AlignmentWage: <br />
+    0
+    <input
+      type="range"
+      min="0"
+      max="3"
+      step="0.01"
+      [value]="Boid.alignmentWage"
+      (change)="changeMovementFactor($event, MovementFactors.alignmentWage)"
+    />
+    3 &nbsp; &nbsp;{{ Boid.alignmentWage }}
+  </div>
+  <div>
+    SeparationWage: <br />
+    0
+    <input
+      type="range"
+      min="0"
+      max="3"
+      step="0.01"
+      [value]="Boid.separationWage"
+      (change)="changeMovementFactor($event, MovementFactors.separationWage)"
+    />
+    3
+
+    {{ Boid.separationWage }}
+  </div>
+  <div>
+    CohesionWage: <br />
+    0
+    <input
+      type="range"
+      min="0"
+      max="3"
+      step="0.01"
+      [value]="Boid.cohesionWage"
+      (change)="changeMovementFactor($event, MovementFactors.cohesionWage)"
+    />
+    3
+    {{ Boid.cohesionWage }}
+  </div>
+
+  <div>
+    sightRadius: <br />
+    0
+    <input
+      type="range"
+      min="1"
+      max="100"
+      step="1"
+      [value]="Boid.sightRadius"
+      (change)="changeMovementFactor($event, MovementFactors.sightRadius)"
+    />
+    100
+    {{ Boid.sightRadius }}
+  </div>
+  <div>
+    showSightRadius <input type="checkbox" [(ngModel)]="showSightRadius" />
+  </div>
+
+  <button class="bg-red" (click)="addBoids(10)">+add 10 Boids</button>
+  <div>boids.length: {{ boids.length }}</div>
+</div>
