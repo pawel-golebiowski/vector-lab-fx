@@ -12,10 +12,26 @@
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(11, 1fr);
-  gap: 4px;
+  gap: 16px;
   background-color: transparent;
 
   border-radius: 16px;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  background-color: lightgray;
+  opacity: 0.9;
+  border: 1px solid black;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: gray;
+    transition: 0.3s background-color;
+  }
 }
 
 .div1 {
@@ -24,12 +40,10 @@
 
 .div2 {
   grid-area: 10 / 5 / 12 / 7;
-  background-color: #2b7c3f;
 }
 
 .div3 {
   grid-area: 10 / 7 / 12 / 9;
-  background-color: #1c0541;
 }
 
 .div4 {
@@ -52,18 +66,15 @@
   grid-area: 1 / 1 / 6 / 5;
 }
 
-.cell {
-  display: flex;
-  flex-direction: column;
-  background-color: lightgray;
-  opacity: 0.6;
-  border: 1px solid black;
-  border-radius: 4px;
-  justify-content: center;
-  align-items: center;
+.div9 {
+  background-color: black;
+  display: none;
+}
 
-  &:hover {
-    background-color: gray;
-    transition: 0.3s background-color;
-  }
+.cell__img {
+  opacity: 0.7;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
 }
