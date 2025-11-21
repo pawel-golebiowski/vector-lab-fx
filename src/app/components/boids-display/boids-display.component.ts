@@ -12,35 +12,38 @@ import { Boid } from '../../models/boid';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { interval, Observable, Subscription, tap } from 'rxjs';
-import { MovementFactors } from '../../models/movementFactors.enum';
-import { SIMULATION_TIME } from '../../../../constants';
+import { BoidControlPanelComponent } from '../boid-control-panel/boid-control-panel.component';
+import { SIMULATION_TIME } from '../../../constants';
 
 @Component({
-  selector: 'vector-fx-boids-background',
+  selector: 'vector-fx-boids-display',
   standalone: true,
-  imports: [JsonPipe, CommonModule, FormsModule],
-  templateUrl: './boids-background.component.html',
-  styleUrl: './boids-background.component.scss',
+  imports: [JsonPipe, CommonModule, FormsModule, BoidControlPanelComponent],
+  templateUrl: './boids-display.component.html',
+  styleUrl: './boids-display.component.scss',
   host: {
     '(window:resize)': 'onWindowResize()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BoidsBackgroundComponent implements OnInit, OnDestroy {
+export class BoidsDisplayComponent implements OnInit, OnDestroy {
   protected boids: Boid[] = [];
   protected selectedBoid: WritableSignal<Boid | null> = signal<Boid | null>(
     null
   );
-  protected showSightRadius = false;
+
+  protected showSightRadius: boolean = false;
+
+  private largestContentfulPaintTime: number | null = null;
 
   private subscription: Subscription = new Subscription();
-  readonly Boid = Boid;
-  readonly MovementFactors = MovementFactors;
+
+  private readonly BOIDS_NUMBER: number = 150;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
   private onInitToolsSetup(): void {
-    this.addBoids(240);
+    this.addBoids(this.BOIDS_NUMBER);
   }
 
   ngOnInit(): void {
@@ -78,12 +81,19 @@ export class BoidsBackgroundComponent implements OnInit, OnDestroy {
           boid.update(this.boids);
         });
         this.changeDetector.markForCheck();
-        console.log('refresh');
       })
     );
   }
 
-  protected addBoids(amountToAdd: number = 1) {
+  protected changeBoidsAmount(amountChange: number) {
+    if (amountChange > 0) {
+      this.addBoids(amountChange);
+    } else {
+      this.removeBoids(Math.abs(amountChange));
+    }
+  }
+
+  private addBoids(amountToAdd: number = 1) {
     for (let i = 0; i < amountToAdd; i++) {
       this.boids.push(new Boid());
     }
@@ -96,31 +106,37 @@ export class BoidsBackgroundComponent implements OnInit, OnDestroy {
         );
       });
     }, 100);
+
+    this.checkLCP();
   }
 
-  protected changeMovementFactor(event: any, factor: MovementFactors) {
-    switch (factor) {
-      case MovementFactors.alignmentWage:
-        Boid.alignmentWage = event.target.value;
-        break;
-      case MovementFactors.separationWage:
-        Boid.separationWage = event.target.value;
-        break;
-      case MovementFactors.cohesionWage:
-        Boid.cohesionWage = event.target.value;
-        break;
-      case MovementFactors.sightRadius:
-        const elementList: NodeList = document.querySelectorAll('.fx-boid');
-        elementList.forEach((el) => {
-          (el as any).style.setProperty(
-            '--circle-radius',
-            event.target.value + 'px'
-          );
-        });
-        Boid.sightRadius = event.target.value;
-        break;
-      default:
-        break;
+  private removeBoids(amountToRemove: number = 1) {
+    this.boids.splice(0, amountToRemove);
+
+    this.checkLCP();
+  }
+
+  protected toggleSightRadius(): void {
+    this.showSightRadius = !this.showSightRadius;
+  }
+
+  private checkLCP(): void {
+    let lcp: number | undefined;
+
+    if ('PerformanceObserver' in window) {
+      const observer = new PerformanceObserver((list) => {
+        const last = list.getEntries().pop() as any;
+        lcp = last.renderTime || last.loadTime || last.startTime;
+      });
+
+      observer.observe({ type: 'largest-contentful-paint', buffered: true });
+
+      setTimeout(() => {
+        console.log('LCP:', lcp);
+        observer.disconnect();
+      }, 100);
+    } else {
+      console.log('PerformanceObserver not supported');
     }
   }
 }

@@ -1,14 +1,3 @@
-@for (boid of boids; track $index) {
-<div
-  class="fx-boid"
-  [style.transform]="'rotate(' + boid.getRotation() + 'deg)'"
-  [style.left.px]="boid.getPosition().x"
-  [style.bottom.px]="boid.getPosition().y"
-  [style.clip-path]="showSightRadius ? '' : 'polygon(0% 25%, 0% 75%, 100% 50%)'"
-  (click)="selectBoid($index)"
-></div>
-}
-
 <div class="develop-panel">
   <div>
     AlignmentWage: <br />
@@ -71,6 +60,19 @@
     showSightRadius <input type="checkbox" [(ngModel)]="showSightRadius" />
   </div>
 
-  <button class="bg-red" (click)="addBoids(10)">+add 10 Boids</button>
-  <div>boids.length: {{ boids.length }}</div>
+  <div>
+      <button
+        class="block bg-red-600 rounded-md m-2 p-4"
+        (click)="changeBoidsAmount.emit(boidCountChangeFactor)"
+      >
+        add {{ boidCountChangeFactor }} boids
+      </button>
+    <button
+      class="block bg-red-600 rounded-md m-2 p-4"
+      (click)="changeBoidsAmount.emit(-boidCountChangeFactor)"
+    >
+      remove {{ boidCountChangeFactor }} boids
+    </button>
+    <div>boidsLength: {{ boidsLength() }}</div>
+  </div>
 </div>

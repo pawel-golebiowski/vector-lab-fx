@@ -1,0 +1,69 @@
+:host {
+  position: absolute;
+  width: 60%;
+  margin: 10vh 20vw;
+  height: 80%;
+  background-color: transparent;
+}
+
+.grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+  gap: 4px;
+  background-color: transparent;
+
+  border-radius: 16px;
+}
+
+.div1 {
+  grid-area: 1 / 9 / 11 / 11;
+}
+
+.div2 {
+  grid-area: 10 / 5 / 12 / 7;
+  background-color: #2b7c3f;
+}
+
+.div3 {
+  grid-area: 10 / 7 / 12 / 9;
+  background-color: #1c0541;
+}
+
+.div4 {
+  grid-area: 11 / 9 / 12 / 11;
+}
+
+.div5 {
+  grid-area: 1 / 5 / 10 / 9;
+}
+
+.div6 {
+  grid-area: 10 / 1 / 12 / 5;
+}
+
+.div7 {
+  grid-area: 6 / 1 / 10 / 5;
+}
+
+.div8 {
+  grid-area: 1 / 1 / 6 / 5;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  background-color: lightgray;
+  opacity: 0.6;
+  border: 1px solid black;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: gray;
+    transition: 0.3s background-color;
+  }
+}

@@ -1,0 +1,16 @@
+@for (boid of boids; track $index) {
+<div
+  class="fx-boid"
+  [style.transform]="'rotate(' + boid.getRotation() + 'deg)'"
+  [style.left.px]="boid.getPosition().x"
+  [style.bottom.px]="boid.getPosition().y"
+  [style.clip-path]="showSightRadius ? '' : 'polygon(0% 25%, 0% 75%, 100% 50%)'"
+  (click)="selectBoid($index)"
+></div>
+}
+
+<!-- <vector-fx-boid-control-panel
+  [boidsLength]="boids.length"
+  (toggleSightRadius)="toggleSightRadius()"
+  (changeBoidsAmount)="changeBoidsAmount($event)"
+></vector-fx-boid-control-panel> -->

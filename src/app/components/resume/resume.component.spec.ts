@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BoidsBackgroundComponent } from './boids-background.component';
+import { ResumeComponent } from './resume.component';
 
-describe('BoidsBackgroundComponent', () => {
-  let component: BoidsBackgroundComponent;
-  let fixture: ComponentFixture<BoidsBackgroundComponent>;
+describe('ResumeComponent', () => {
+  let component: ResumeComponent;
+  let fixture: ComponentFixture<ResumeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BoidsBackgroundComponent]
+      imports: [ResumeComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BoidsBackgroundComponent);
+    fixture = TestBed.createComponent(ResumeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
