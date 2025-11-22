@@ -1,4 +1,4 @@
-import { radiansToDegrees } from '../../../constants';
+import { radiansToDegrees } from '../../constants';
 import { Vector2D } from './vector2D';
 
 export class Boid {
